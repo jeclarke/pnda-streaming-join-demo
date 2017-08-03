@@ -1,0 +1,13 @@
+{
+    "main_jar": "join-demo-scala-app.jar",
+    "main_class": "com.cisco.pnda.examples.joindemo.App",
+    "log_level":"DEBUG",
+    "batch_size_seconds": "60",
+    "context_dataset_path": "/user/pnda/PNDA_datasets/bulk/context/context.json",
+    "input_dstream_partitions": "0",
+    "context_dataset_partitions": "40",
+    "checkpoint_path":"",
+    "input_topic": "avro.events",
+    "consume_from_beginning": "false",
+    "spark_submit_args": "--conf spark.yarn.executor.memoryOverhead=5000 --executor-memory 7G --num-executors 6 --executor-cores 7"
+}
