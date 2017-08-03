@@ -31,7 +31,7 @@ public final class Main {
 
   public static void main(String[] args) {
     if (args.length < 2) {
-      System.err.println("Usage: java -jar join-demosrc.jar kafka-broker1 topic [nsleep tsleep]\noptionally sleep for tsleep milliseconds every nsleep messages to control send rate");
+      System.err.println("Usage: java -jar join-demo-src-0.0.1.jar 'kafka-0:9092' 'topic' [nsleep tsleep]\noptionally sleep for tsleep milliseconds every nsleep messages to control send rate");
       System.exit(1);
     }
     int nsleep = 0;
