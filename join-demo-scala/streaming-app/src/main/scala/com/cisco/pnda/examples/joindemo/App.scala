@@ -48,7 +48,6 @@ object App {
         val props = AppConfig.loadProperties()
         val appName = props.getProperty("component.application")
         val batchSizeSeconds = Integer.parseInt(props.getProperty("component.batch_size_seconds"))
-        val checkpointInterval = Duration(batchSizeSeconds * 1000)
         val contextDatasetPartitions = props.getProperty("component.context_dataset_partitions")
         val partitioner = new HashPartitioner(contextDatasetPartitions.toInt)
 
@@ -64,14 +63,9 @@ object App {
             (contextEntry.id.toString, row)
         }).partitionBy(partitioner).cache()
 
-        val checkpointDirectory = props.getProperty("component.checkpoint_path")
-
         def creatingFunc(): StreamingContext = {
 
             val ssc = new StreamingContext(sc, Seconds(batchSizeSeconds))
-            if (checkpointDirectory.length() > 0) {
-                ssc.checkpoint(checkpointDirectory)
-            }
 
             def readFromKafka (ssc: StreamingContext): DStream[DataPlatformEvent] = {
                 val topicsSet = props.getProperty("component.input_topic").split(",").toSet;
@@ -95,9 +89,6 @@ object App {
             };
 
             val eventStream = readFromKafka(ssc)
-            if (checkpointDirectory.length() > 0) {
-                eventStream.checkpoint(checkpointInterval)
-            }
 
             case class EventData(id: String, context_id: String, gen_ts: String, afield: String)
             val eventStreamPair = eventStream.map(event => {
@@ -119,7 +110,7 @@ object App {
         }
 
         // Create the streaming context, or load a saved one from disk
-        val ssc = if (checkpointDirectory.length() > 0) StreamingContext.getOrCreate(checkpointDirectory, creatingFunc) else creatingFunc();
+        val ssc = creatingFunc();
 
         sys.ShutdownHookThread {
             logger.info("Gracefully stopping Spark Streaming Application")

@@ -68,7 +68,6 @@ app_log_level = log_level_value(['component.log_level'])
 
 logger_url = properties['environment.metric_logger_url']
 app_name = properties['component.application']
-checkpoint_directory = properties['component.checkpoint_path']
 batch_size_seconds = int(properties['component.batch_size_seconds'])
 context_dataset_partitions = int(properties['component.context_dataset_partitions'])
 
@@ -84,8 +83,6 @@ context_dataset = sc.textFile(properties['component.context_dataset_path']).map(
 def create_pipeline():
     log_out(LOG_LEVEL_INFO, 'Creating spark context')
     ssc = StreamingContext(sc, batch_size_seconds)
-    if len(checkpoint_directory) > 0:
-        ssc.checkpoint(checkpoint_directory)
 
     topics = properties['component.input_topic'].split(',')
     kafka_params = {'metadata.broker.list': properties['environment.kafka_brokers']}
@@ -131,10 +128,7 @@ def create_pipeline():
     return ssc
 
 log_out(LOG_LEVEL_INFO, 'Creating pipeline')
-if len(checkpoint_directory) > 0:
-    log_out(LOG_LEVEL_INFO, 'Loading checkpoint from %s' % checkpoint_directory)
-
-application_context = StreamingContext.getOrCreate(checkpoint_directory, create_pipeline) if len(checkpoint_directory) > 0 else create_pipeline()
+application_context = create_pipeline()
 
 # Start the app running
 log_out(LOG_LEVEL_INFO, 'Starting spark streaming execution')

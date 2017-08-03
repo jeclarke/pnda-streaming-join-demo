@@ -7,7 +7,6 @@
     "input_dstream_partitions": "0",
     "join_output_partitions": "40",
     "context_dataset_partitions": "40",
-    "checkpoint_path":"",
     "input_topic": "avro.events",
     "consume_from_beginning": "false",
     "spark_submit_args": "--conf spark.yarn.executor.memoryOverhead=5000 --executor-memory 7G --num-executors 6 --executor-cores 7"
