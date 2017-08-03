@@ -109,7 +109,7 @@ object App {
             ssc
         }
 
-        // Create the streaming context, or load a saved one from disk
+        // Create the streaming context
         val ssc = creatingFunc();
 
         sys.ShutdownHookThread {
