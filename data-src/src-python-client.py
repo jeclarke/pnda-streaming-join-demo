@@ -2,13 +2,13 @@
 Name:       src.py
 Purpose:    Test script to push data into kafka for consumption by the example spark streaming app.
             Not intended for any kind of serious purpose.
-            usage: src.py kafka_broker num_to_send
-             e.g.: src.py 192.168.12.24 250
+            usage: src.py kafka_broker
+             e.g.: src.py 192.168.12.24
 Author:     PNDA team
 
 Created:    31/07/2017
 
-Copyright (c) 2016 Cisco and/or its affiliates.
+Copyright (c) 2017 Cisco and/or its affiliates.
 
 This software is licensed to you under the terms of the Apache License, Version 2.0 (the "License").  You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
 
