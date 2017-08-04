@@ -49,12 +49,12 @@ def log_level_name(level):
         return 'ERROR'
 
 def log_level_value(level):
-    if level == 2:
-        return 'DEBUG'
-    elif level == 1:
-        return 'INFO'
+    if level == 'DEBUG':
+        return LOG_LEVEL_DEBUG
+    elif level == 'INFO':
+        return LOG_LEVEL_INFO
     else:
-        return 'ERROR'
+        return LOG_LEVEL_ERROR
 
 def log_out(level, message):
     if app_log_level >= level:
@@ -64,7 +64,7 @@ def log_out(level, message):
 app_log_level = LOG_LEVEL_INFO
 log_out(LOG_LEVEL_INFO, 'Loading application.properties')
 properties = dict(line.strip().split('=', 1) if not line.strip().startswith('#') else [line, None] for line in open('application.properties'))
-app_log_level = log_level_value(['component.log_level'])
+app_log_level = log_level_value(properties['component.log_level'])
 
 logger_url = properties['environment.metric_logger_url']
 app_name = properties['component.application']
